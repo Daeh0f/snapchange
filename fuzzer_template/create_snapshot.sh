@@ -6,9 +6,15 @@ set -e
 init_qemu_snapshot() {
   pushd qemu_snapshot
 
-  # Use kernel v5.4
-  ./init.sh --kernel-version v5.4
-
+  if [ "$( cat /etc/os-release | grep ^VERSION= | cut -d'"' -f2)" = "22.04.2 LTS (Jammy Jellyfish)" ]; 
+  then 
+    # Use kernel v5.19 
+    ./init.sh --kernel-version v5.19
+  else 
+    # Use kernel v5.4
+    ./init.sh --kernel-version v5.4
+  fi
+  
   # Use the latest kernel commit with KASAN
   # ./init.sh --with-kasan
 
